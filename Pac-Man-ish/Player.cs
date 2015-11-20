@@ -34,39 +34,36 @@ namespace Pac_Man_ish
         {
             get; set;
         }
+        public int LastX
+        {
+            get; set;
+        }
+        public int LastY
+        {
+            get; set;
+        }
         public Vector v
         {
             get; set;
         }
         private Thread p_thread;
-        public PlayArea board
+        public PlayArea Board
         {
             get; set;
         }
-        private Drawer drawer;
 
-        public Player(char _icon, int x, int y)
+        public Player(char _icon, ConsoleColor color, int x, int y, PlayArea board)
         {
             Id = Interlocked.Increment(ref counter);
             X = x;
             Y = y;
+            LastX = x;
+            LastY = y;
             Icon = _icon;
             Alive = true;
-            Color = ConsoleColor.White;
+            Color = color;
+            Board = board;
             v = Vector.RIGHT;
-            drawer = new Drawer();
-        }
-
-        public void Draw()
-        {
-            try
-            {
-                drawer.DrawObject(this);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                
-            }
         }
         
         private void Move()
@@ -90,7 +87,7 @@ namespace Pac_Man_ish
                         x = X + 1;
                         break;
                 }
-                if (board[x, y] != null || x < 0 || x > board.Width || y < 0 || y > board.Height) {
+                if (Board[x, y] != null || x < 1 || x >= Board.Width || y < 1 || y >= Board.Height) {
                     v = Vector.STOP;
                 }
                 else
@@ -99,7 +96,7 @@ namespace Pac_Man_ish
                     Y = y;
                 }
                 Thread.Sleep(Game.TICK);
-            } while (Alive);
+            } while (Game.RunGame);
         }
 
         public void Start()
