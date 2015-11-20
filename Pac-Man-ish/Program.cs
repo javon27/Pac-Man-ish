@@ -135,6 +135,7 @@ namespace Pac_Man_ish
             board = new PlayArea();
             board.Draw();
             p1 = new Player('█', ConsoleColor.Yellow, 4, 4, board);
+            p1.v = Vector.RIGHT;
             p1.Start();
             ConsoleColor[] enemyColors =
             {
@@ -145,13 +146,15 @@ namespace Pac_Man_ish
 
             };
             enemies = new List<Player>();
-            var e1 = new Player((char)164, enemyColors[0], 10, 10, board);
-            enemies.Add(e1);
-            e1 = new Player((char)164, enemyColors[1], 25, 25, board);
-            enemies.Add(e1);
-            foreach (var enemy in enemies)
+            var enemy = new Player((char)164, enemyColors[0], 10, 10, board);
+            enemy.v = Vector.UP;
+            enemies.Add(enemy);
+            enemy = new Player((char)164, enemyColors[1], 25, 25, board);
+            enemy.v = Vector.LEFT;
+            enemies.Add(enemy);
+            foreach (var e in enemies)
             {
-                enemy.Start();
+                e.Start();
             }
 
         }

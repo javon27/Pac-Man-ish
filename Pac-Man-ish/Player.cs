@@ -63,7 +63,7 @@ namespace Pac_Man_ish
             Alive = true;
             Color = color;
             Board = board;
-            v = Vector.RIGHT;
+            v = Vector.STOP;
         }
         
         private void Move()
