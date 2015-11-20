@@ -42,7 +42,18 @@ namespace Pac_Man_ish
         {
             get; set;
         }
-        void Draw();
+        int LastX
+        {
+            get; set;
+        }
+        int LastY
+        {
+            get; set;
+        }
+        Vector v
+        {
+            get; set;
+        }
     }
 
     public enum Vector
@@ -52,13 +63,14 @@ namespace Pac_Man_ish
 
     class Game
     {
-        public const int TICK = 30;
+        public static bool RunGame = true;
+        public const int TICK = 50;
         static Player p1;
         static List<Player> enemies;
         public static PlayArea board;
         static Thread t_KeyListener;
         static Thread t_DrawPlayers;
-        static int NumEnemies = 10;
+        static int NumEnemies = 2;
         static Properties.Settings options = Properties.Settings.Default;
 
         static void Main(string[] args)
@@ -74,21 +86,25 @@ namespace Pac_Man_ish
         {
             do
             {
-                p1.Draw();
+                //board.ClearPlayArea();
+                Drawer.DrawObject(p1);
+                foreach (var enemy in enemies)
+                {
+                     Drawer.DrawObject(enemy);
+                }
                 Thread.Sleep(TICK);
-            } while (p1.Alive);
+            } while (RunGame);
         }
 
         private static void KeyListener()
         {
-            bool runGame = true;
             do
             {
                 var cki = Console.ReadKey(true);
                 switch (cki.Key)
                 {
                     case ConsoleKey.Escape:
-                        runGame = false;
+                        RunGame = false;
                         break;
                     case ConsoleKey.UpArrow:
                         p1.v = Vector.UP;
@@ -103,7 +119,7 @@ namespace Pac_Man_ish
                         p1.v = Vector.RIGHT;
                         break;
                 }
-            } while (runGame);
+            } while (RunGame);
             p1.Alive = false;
         }
 
@@ -117,15 +133,27 @@ namespace Pac_Man_ish
             Console.Title = "Pac-Man-Ish";
             // Generate Board
             board = new PlayArea();
-            p1 = new Player('█', 4, 4);
-            p1.Color = ConsoleColor.Yellow;
-            p1.board = board;
+            board.Draw();
+            p1 = new Player('█', ConsoleColor.Yellow, 4, 4, board);
             p1.Start();
-            //enemies = new List<Player>();
-            //for (var i = 0; i < NumEnemies; i++)
-            //{
-            //    enemies.Add(new Player((char)164));
-            //}
+            ConsoleColor[] enemyColors =
+            {
+                ConsoleColor.Cyan,
+                ConsoleColor.Magenta,
+                ConsoleColor.Red,
+                ConsoleColor.Yellow
+
+            };
+            enemies = new List<Player>();
+            var e1 = new Player((char)164, enemyColors[0], 10, 10, board);
+            enemies.Add(e1);
+            e1 = new Player((char)164, enemyColors[1], 25, 25, board);
+            enemies.Add(e1);
+            foreach (var enemy in enemies)
+            {
+                enemy.Start();
+            }
+
         }
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Drawer.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="PlayArea.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
