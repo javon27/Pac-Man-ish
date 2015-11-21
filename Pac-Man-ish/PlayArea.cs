@@ -86,7 +86,7 @@ namespace Pac_Man_ish
                     var o = ((StationaryObject)Board[i, j]);
                     if (o != null)
                     {
-                        Drawer.DrawObject(o);
+                        Drawer.DrawPlayer(o);
                         o.v = Vector.STOP;
                     }
                     
