@@ -42,6 +42,18 @@ namespace Pac_Man_ish
         {
             get; set;
         }
+    }
+
+    public interface IGameActor: IGameObject
+    {
+        bool Alive
+        {
+            get; set;
+        }
+        Vector v
+        {
+            get; set;
+        }
         int LastX
         {
             get; set;
@@ -50,10 +62,8 @@ namespace Pac_Man_ish
         {
             get; set;
         }
-        Vector v
-        {
-            get; set;
-        }
+        void Start();
+        void Stop();
     }
 
     public enum Vector

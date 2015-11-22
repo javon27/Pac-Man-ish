@@ -8,7 +8,7 @@ namespace Pac_Man_ish
 {
     class Drawer
     {
-        public static void DrawPlayer(Player player)
+        public static void DrawPlayer(IGameActor player)
         {
             int x = player.X;
             int y = player.Y;
@@ -20,6 +20,7 @@ namespace Pac_Man_ish
                 player.LastY = y;
             //}
         }
+        
 
         public static void DrawObject(char s, ConsoleColor c, int x, int y)
         {
