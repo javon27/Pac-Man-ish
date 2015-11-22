@@ -69,6 +69,7 @@ namespace Pac_Man_ish
     class Program
     {
         static Properties.Settings options = Properties.Settings.Default;
+        private static Game game;
         static void Main(string[] args)
         {
             //init();
@@ -79,7 +80,6 @@ namespace Pac_Man_ish
             initWindow();
             
             bool playGame = true;
-            Game game = new Game();
             do
             {
                 switch (Menu())
@@ -90,8 +90,11 @@ namespace Pac_Man_ish
                         game.Run();
                         break;
                     case MenuItem.CONTINUE:
-                        Console.Clear();
-                        game.Run();
+                        if (game != null)
+                        {
+                            Console.Clear();
+                            game.Run();
+                        }
                         break;
                     case MenuItem.QUIT:
                         playGame = false;
