@@ -61,6 +61,11 @@ namespace Pac_Man_ish
         UP, DOWN, LEFT, RIGHT, STOP
     }
 
+    public enum MenuItem
+    {
+        PLAY, SETTINGS, QUIT
+    }
+
     class Program
     {
         static Properties.Settings options = Properties.Settings.Default;
@@ -74,7 +79,22 @@ namespace Pac_Man_ish
             initWindow();
 
             Game game = new Game();
-            game.Run();
+            bool playGame = true;
+            do
+            {
+                switch (Menu())
+                {
+                    case MenuItem.PLAY:
+                        Console.Clear();
+                        game.Run();
+                        break;
+                    case MenuItem.QUIT:
+                        playGame = false;
+                        break;
+                    case MenuItem.SETTINGS:
+                        break;
+                }
+            } while (playGame);
         }
 
         static void initWindow()
@@ -85,17 +105,23 @@ namespace Pac_Man_ish
             Console.BufferWidth = options.windowWidth;
             Console.CursorVisible = false;
             Console.Title = "Pac-Man-Ish";
+            Console.Clear();
+        }
+
+        static MenuItem Menu()
+        {
+            string msg = "Press enter to play game.";
+            Console.SetCursorPosition(30 - (msg.Length / 2), 30);
+            Console.Write(msg);
+            Console.ReadLine();
+            return MenuItem.PLAY;
         }
 
         static void test()
         {
             PlayArea board = new PlayArea();
-            while (!Console.KeyAvailable)
-            {
-                Console.Clear();
-                board.Draw();
-                Thread.Sleep(1000);
-            }
+            Player p1 = new Player('P', ConsoleColor.White, 1, 1, board);
+
         }
     }
 }

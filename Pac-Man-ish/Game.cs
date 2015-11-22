@@ -21,26 +21,30 @@ namespace Pac_Man_ish
         public Game()
         {
             init();
-            t_KeyListener = new Thread(KeyListener);
         }
 
         public void Run()
         {
+            t_KeyListener = new Thread(KeyListener);
             t_KeyListener.Start();
             board.Draw();
+            p1.Alive = true;
             p1.Start();
             foreach (var enemy in enemies)
             {
+                enemy.Alive = true;
                 enemy.Start();
             }
+            RunGame = true;
             do
             {
                 DrawPlayers();
             } while (RunGame);
-            p1.Alive = false;
+            t_KeyListener.Abort();
+            p1.Stop();
             foreach (var enemy in enemies)
             {
-                enemy.Alive = false;
+                enemy.Stop();
             }
         }
 
@@ -76,6 +80,9 @@ namespace Pac_Man_ish
                         break;
                     case ConsoleKey.RightArrow:
                         p1.v = Vector.RIGHT;
+                        break;
+                    case ConsoleKey.Spacebar:
+                        p1.v = Vector.STOP;
                         break;
                 }
             } while (RunGame);
