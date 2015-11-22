@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace Pac_Man_ish
 {
-    class Player: IGameObject
-    {        
-        private static int counter = 0;
-        public int Id
-        {
-            get; private set;
-        }
+    class Player: IGameObject, IGameActor
+    {
         public bool Alive
         {
             get; set;
@@ -46,7 +41,7 @@ namespace Pac_Man_ish
         {
             get; set;
         }
-        private Thread p_thread;
+        protected Thread p_thread;
         public PlayArea Board
         {
             get; set;
@@ -54,7 +49,6 @@ namespace Pac_Man_ish
 
         public Player(char _icon, ConsoleColor color, int x, int y, PlayArea board)
         {
-            Id = Interlocked.Increment(ref counter);
             X = x;
             Y = y;
             LastX = x;

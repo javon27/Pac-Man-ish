@@ -11,11 +11,12 @@ namespace Pac_Man_ish
     {
         public bool RunGame = true;
         public const int TICK = 50;
+        public static int gameCounter = 0;
         Player p1;
-        List<Player> enemies;
+        List<Enemy> enemies;
         public PlayArea board;
         Thread t_KeyListener;
-        int NumEnemies = 2;
+        int NumEnemies = 20;
         Properties.Settings options = Properties.Settings.Default;
 
         public Game()
@@ -39,6 +40,9 @@ namespace Pac_Man_ish
             do
             {
                 DrawPlayers();
+                gameCounter++;
+                gameCounter %= 100;
+                Thread.Sleep(TICK);
             } while (RunGame);
             t_KeyListener.Abort();
             p1.Stop();
@@ -56,7 +60,6 @@ namespace Pac_Man_ish
                 {
                     Drawer.DrawPlayer(enemy);
                 }
-                Thread.Sleep(TICK);
         }
 
         private void KeyListener()
@@ -102,13 +105,14 @@ namespace Pac_Man_ish
                 ConsoleColor.Yellow
 
             };
-            enemies = new List<Player>();
-            var enemy = new Player((char)164, enemyColors[0], 10, 10, board);
-            enemy.v = Vector.UP;
-            enemies.Add(enemy);
-            enemy = new Player((char)164, enemyColors[1], 25, 25, board);
-            enemy.v = Vector.LEFT;
-            enemies.Add(enemy);
+            enemies = new List<Enemy>();
+            Random rand = new Random(DateTime.Now.Millisecond);
+            for (var i = 0; i < NumEnemies; i++)
+            {
+                var enemy = new Enemy((char)164, enemyColors[rand.Next() % 4], 30, 30, board);
+                enemy.v = (Vector)(rand.Next() % 4);
+                enemies.Add(enemy);
+            }
 
         }
     }
