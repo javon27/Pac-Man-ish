@@ -63,7 +63,7 @@ namespace Pac_Man_ish
 
     public enum MenuItem
     {
-        PLAY, SETTINGS, QUIT
+        NEW, CONTINUE, SETTINGS, QUIT
     }
 
     class Program
@@ -77,14 +77,19 @@ namespace Pac_Man_ish
             //t_DrawPlayers = new Thread(DrawPlayers);
             //t_DrawPlayers.Start();
             initWindow();
-
-            Game game = new Game();
+            
             bool playGame = true;
+            Game game = new Game();
             do
             {
                 switch (Menu())
                 {
-                    case MenuItem.PLAY:
+                    case MenuItem.NEW:
+                        Console.Clear();
+                        game = new Game();
+                        game.Run();
+                        break;
+                    case MenuItem.CONTINUE:
                         Console.Clear();
                         game.Run();
                         break;
@@ -92,6 +97,7 @@ namespace Pac_Man_ish
                         playGame = false;
                         break;
                     case MenuItem.SETTINGS:
+                        WriteStatus("Settings selected");
                         break;
                 }
             } while (playGame);
@@ -110,11 +116,62 @@ namespace Pac_Man_ish
 
         static MenuItem Menu()
         {
-            string msg = "Press enter to play game.";
-            Console.SetCursorPosition(30 - (msg.Length / 2), 30);
-            Console.Write(msg);
-            Console.ReadLine();
-            return MenuItem.PLAY;
+            int cursor = 0;
+            string[] items =
+            {
+                "New Game",
+                "Continue",
+                "Settings",
+                "Quit"
+            };
+            ConsoleKeyInfo cki;
+            bool itemSelected = false;
+            do
+            {
+                for (var i = 0; i < 4; i++)
+                {
+                    Console.SetCursorPosition(24, 25 + i);
+                    if (i == cursor)
+                    {
+                        Console.Write('█');
+                    }
+                    else
+                    {
+                        Console.Write(' ');
+                    }
+                    Console.Write(items[i]);
+                }
+                cki = Console.ReadKey(true);
+                if (cki.Key == ConsoleKey.UpArrow)
+                {
+                    cursor = (4 + cursor - 1) % 4;
+                }
+                else if (cki.Key == ConsoleKey.DownArrow){
+                    cursor = (4 + cursor + 1) % 4;
+                }
+                else if (cki.Key == ConsoleKey.Enter)
+                {
+                    itemSelected = true;
+                }
+            } while (!itemSelected);
+
+            return (MenuItem) cursor;
+        }
+
+        public static void WriteStatus(string s)
+        {
+            ClearStatus();
+            Console.SetCursorPosition(0, 58);
+            Console.Write(s);
+        }
+
+        public static void ClearStatus()
+        {
+            Console.SetCursorPosition(0, 58);
+            for (var i = 0; i < 25; i++)
+            {
+                Console.Write(' ');
+            }
         }
 
         static void test()
