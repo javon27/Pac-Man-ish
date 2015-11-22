@@ -87,7 +87,7 @@ namespace Pac_Man_ish
                         x = X + 1;
                         break;
                 }
-                if (Board[x, y] != null || x < 1 || x >= Board.Width || y < 1 || y >= Board.Height) {
+                if (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom) {
                     v = Vector.STOP;
                 }
                 else
@@ -96,7 +96,7 @@ namespace Pac_Man_ish
                     Y = y;
                 }
                 Thread.Sleep(Game.TICK);
-            } while (Game.RunGame);
+            } while (Alive);
         }
 
         public void Start()

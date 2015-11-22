@@ -26,24 +26,24 @@ namespace Pac_Man_ish.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int gameWidth {
+        public int windowWidth {
             get {
-                return ((int)(this["gameWidth"]));
+                return ((int)(this["windowWidth"]));
             }
             set {
-                this["gameWidth"] = value;
+                this["windowWidth"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int gameHeight {
+        public int windowHeight {
             get {
-                return ((int)(this["gameHeight"]));
+                return ((int)(this["windowHeight"]));
             }
             set {
-                this["gameHeight"] = value;
+                this["windowHeight"] = value;
             }
         }
     }

@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Pac_Man_ish.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="gameWidth" Type="System.Int32" Scope="User">
+    <Setting Name="windowWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
-    <Setting Name="gameHeight" Type="System.Int32" Scope="User">
+    <Setting Name="windowHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
   </Settings>
