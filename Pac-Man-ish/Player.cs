@@ -101,11 +101,18 @@ namespace Pac_Man_ish
 
         public void Start()
         {
+            Alive = true;
             if (p_thread == null)
             {
                 p_thread = new Thread(Move);
                 p_thread.Start();
             }
+        }
+
+        public void Stop()
+        {
+            Alive = false;
+            p_thread = null;
         }
 
         ~Player()

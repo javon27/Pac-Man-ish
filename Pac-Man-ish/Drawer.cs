@@ -12,13 +12,13 @@ namespace Pac_Man_ish
         {
             int x = player.X;
             int y = player.Y;
-            if (player.v != Vector.STOP)
-            {
+           // if (player.v != Vector.STOP)
+            //{
                 Erase(player.LastX, player.LastY);
                 DrawObject(player.Icon, player.Color, x, y);
                 player.LastX = x;
                 player.LastY = y;
-            }
+            //}
         }
 
         public static void DrawObject(char s, ConsoleColor c, int x, int y)
