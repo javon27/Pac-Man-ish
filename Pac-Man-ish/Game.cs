@@ -10,7 +10,7 @@ namespace Pac_Man_ish
     class Game
     {
         public bool RunGame = true;
-        public const int TICK = 50;
+        public const int TICK = 75;
         public static int gameCounter = 0;
         Player p1;
         List<Enemy> enemies;
@@ -99,17 +99,17 @@ namespace Pac_Man_ish
             p1.v = Vector.RIGHT;
             ConsoleColor[] enemyColors =
             {
-                ConsoleColor.Cyan,
-                ConsoleColor.Magenta,
-                ConsoleColor.Red,
-                ConsoleColor.Yellow
+                ConsoleColor.Cyan,  // Blinky
+                ConsoleColor.Magenta,  // Pinky
+                ConsoleColor.Red,   // Inky
+                ConsoleColor.Yellow  // Clyde
 
             };
             enemies = new List<Enemy>();
             Random rand = new Random(DateTime.Now.Millisecond);
             for (var i = 0; i < NumEnemies; i++)
             {
-                var enemy = new Enemy((char)164, enemyColors[rand.Next() % 4], 30, 30, board);
+                var enemy = new Enemy('░', enemyColors[rand.Next() % 4], 30, 30, board);
                 enemy.v = (Vector)(rand.Next() % 4);
                 enemies.Add(enemy);
             }
