@@ -78,6 +78,7 @@ namespace Pac_Man_ish
 
     class Program
     {
+        static int statusRow = 57;
         static Properties.Settings options = Properties.Settings.Default;
         private static Game game;
         static void Main(string[] args)
@@ -143,14 +144,14 @@ namespace Pac_Man_ish
             {
                 for (var i = 0; i < 4; i++)
                 {
-                    Console.SetCursorPosition(24, 25 + i);
+                    Console.SetCursorPosition(25, 25 + i);
                     if (i == cursor)
                     {
-                        Console.Write('█');
+                        Console.Write("█ ");
                     }
                     else
                     {
-                        Console.Write(' ');
+                        Console.Write("  ");
                     }
                     Console.Write(items[i]);
                 }
@@ -174,13 +175,13 @@ namespace Pac_Man_ish
         public static void WriteStatus(string s)
         {
             ClearStatus();
-            Console.SetCursorPosition(0, 58);
+            Console.SetCursorPosition(0, statusRow);
             Console.Write(s);
         }
 
         public static void ClearStatus()
         {
-            Console.SetCursorPosition(0, 58);
+            Console.SetCursorPosition(0, statusRow);
             for (var i = 0; i < 25; i++)
             {
                 Console.Write(' ');
