@@ -56,25 +56,25 @@ namespace Pac_Man_ish
         }
 
         protected Thread p_thread;
-        public PlayArea Board
+        public Game Parent
         {
             get; set;
         }
 
-        public Player(char _icon, ConsoleColor color, int x, int y, PlayArea board)
+        public Player(char _icon, ConsoleColor color, int x, int y, Game game)
         {
             fX = LastX = X = x;
             fY = LastY = Y = y;
             Icon = _icon;
             Alive = true;
             Color = color;
-            Board = board;
+            Parent = game;
             V = Vector.STOP;
-            Board[X, Y] = this;
         }
         
         private void Move()
         {
+            PlayArea Board = Parent.board;
             do
             {
                 float fx = fX;
@@ -109,8 +109,9 @@ namespace Pac_Man_ish
                 }
                 x = (int)Math.Round(fx, 0);
                 y = (int)Math.Round(fy, 0);
-                if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
+                if (Board[x, y].GetType() == typeof(StationaryObject) || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom)
                 {
+                    // Continue going towards the last vector if the new vector runs into a wall;
                     if (V != LastV)
                     {
                         fx = fX;
@@ -142,14 +143,12 @@ namespace Pac_Man_ish
                         }
                         x = (int)Math.Round(fx, 0);
                         y = (int)Math.Round(fy, 0);
-                        if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
+                        if (Board[x, y].GetType() == typeof(StationaryObject) || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom)
                         {
                             V = Vector.STOP;
                         }
                         else
                         {
-                            Board[X, Y] = null;
-                            Board[x, y] = this;
                             fX = fx;
                             fY = fy;
                             X = x;
@@ -160,8 +159,6 @@ namespace Pac_Man_ish
                 else
                 {
                     LastV = V;
-                    Board[X, Y] = null;
-                    Board[x, y] = this;
                     fX = fx;
                     fY = fy;
                     X = x;

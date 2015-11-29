@@ -55,12 +55,12 @@ namespace Pac_Man_ish
             get; set;
         }
         protected Thread p_thread;
-        public PlayArea Board
+        public Game Parent
         {
             get; set;
         }
 
-        public Enemy (char _icon, ConsoleColor color, int x, int y, PlayArea board) 
+        public Enemy (char _icon, ConsoleColor color, int x, int y, Game game) 
         {
             Id = Interlocked.Increment(ref counter);
             fX = LastX = X = x;
@@ -68,15 +68,15 @@ namespace Pac_Man_ish
             Icon = _icon;
             Alive = true;
             Color = color;
-            Board = board;
+            Parent = game;
             Random rand = new Random(DateTime.Now.Millisecond);
             V = (Vector)(rand.Next() % 4);
-            Board[X, Y] = this;
         }
 
         private void Move()
         {
             Random rand = new Random(DateTime.Now.Millisecond);
+            PlayArea Board = Parent.board;
             do
             {
                 //if (Game.gameCounter%5 == 0)
@@ -103,14 +103,12 @@ namespace Pac_Man_ish
                 }
                 int x = (int)Math.Round(fx, 0);
                 int y = (int)Math.Round(fy, 0);
-                if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
+                if ((Board[x, y] != null && Board[x, y].GetType() == typeof(StationaryObject)) || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom)
                 {
                     V = (Vector)(rand.Next() % 4);
                 }
                 else
                 {
-                    Board[X, Y] = null;
-                    Board[x, y] = this;
                     fX = fx;
                     fY = fy;
                     X = x;
