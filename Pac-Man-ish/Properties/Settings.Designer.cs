@@ -25,7 +25,7 @@ namespace Pac_Man_ish.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
         public int windowWidth {
             get {
                 return ((int)(this["windowWidth"]));
@@ -37,13 +37,37 @@ namespace Pac_Man_ish.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        [global::System.Configuration.DefaultSettingValueAttribute("28")]
         public int windowHeight {
             get {
                 return ((int)(this["windowHeight"]));
             }
             set {
                 this["windowHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public float enemySpeed {
+            get {
+                return ((float)(this["enemySpeed"]));
+            }
+            set {
+                this["enemySpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public float playerSpeed {
+            get {
+                return ((float)(this["playerSpeed"]));
+            }
+            set {
+                this["playerSpeed"] = value;
             }
         }
     }

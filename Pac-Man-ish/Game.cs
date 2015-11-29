@@ -10,13 +10,13 @@ namespace Pac_Man_ish
     class Game
     {
         public bool RunGame = true;
-        public const int TICK = 75;
+        public const int TICK = 100;
         public static int gameCounter = 0;
         Player p1;
         List<Enemy> enemies;
         public PlayArea board;
         Thread t_KeyListener;
-        int NumEnemies = 20;
+        int NumEnemies = 4;
         Properties.Settings options = Properties.Settings.Default;
 
         public Game()
@@ -28,7 +28,7 @@ namespace Pac_Man_ish
         {
             t_KeyListener = new Thread(KeyListener);
             t_KeyListener.Start();
-            board.Draw();
+            board.Draw(true);
             p1.Alive = true;
             p1.Start();
             foreach (var enemy in enemies)
@@ -39,10 +39,11 @@ namespace Pac_Man_ish
             RunGame = true;
             do
             {
-                DrawPlayers();
+                board.Draw();
+                Drawer.WriteStatus("Player: " + p1.X.ToString() + ", " + p1.Y.ToString());
                 gameCounter++;
                 gameCounter %= 100;
-                Thread.Sleep(TICK);
+                //Thread.Sleep(25);
             } while (RunGame);
             t_KeyListener.Abort();
             p1.Stop();
@@ -73,19 +74,19 @@ namespace Pac_Man_ish
                         RunGame = false;
                         break;
                     case ConsoleKey.UpArrow:
-                        p1.v = Vector.UP;
+                        p1.V = Vector.UP;
                         break;
                     case ConsoleKey.DownArrow:
-                        p1.v = Vector.DOWN;
+                        p1.V = Vector.DOWN;
                         break;
                     case ConsoleKey.LeftArrow:
-                        p1.v = Vector.LEFT;
+                        p1.V = Vector.LEFT;
                         break;
                     case ConsoleKey.RightArrow:
-                        p1.v = Vector.RIGHT;
+                        p1.V = Vector.RIGHT;
                         break;
                     case ConsoleKey.Spacebar:
-                        p1.v = Vector.STOP;
+                        p1.V = Vector.STOP;
                         break;
                 }
             } while (RunGame);
@@ -95,8 +96,8 @@ namespace Pac_Man_ish
         {
             // Generate Board
             board = new PlayArea();
-            p1 = new Player('█', ConsoleColor.Yellow, 4, 4, board);
-            p1.v = Vector.RIGHT;
+            p1 = new Player('█', ConsoleColor.Yellow, 11, 15, board);
+            p1.V = Vector.RIGHT;
             ConsoleColor[] enemyColors =
             {
                 ConsoleColor.Cyan,  // Blinky
@@ -109,11 +110,13 @@ namespace Pac_Man_ish
             Random rand = new Random(DateTime.Now.Millisecond);
             for (var i = 0; i < NumEnemies; i++)
             {
-                var enemy = new Enemy('░', enemyColors[rand.Next() % 4], 30, 30, board);
-                enemy.v = (Vector)(rand.Next() % 4);
+                int x, y;
+                x = 12 + i;
+                y = 9;
+                var enemy = new Enemy('░', enemyColors[i], x, y, board);
+                enemy.V = (Vector)(rand.Next() % 4);
                 enemies.Add(enemy);
             }
-
         }
     }
 }
