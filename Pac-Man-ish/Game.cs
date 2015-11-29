@@ -96,7 +96,7 @@ namespace Pac_Man_ish
         {
             // Generate Board
             board = new PlayArea();
-            p1 = new Player('█', ConsoleColor.Yellow, 11, 15, board);
+            p1 = new Player('█', ConsoleColor.Yellow, 11, 19, board);
             p1.V = Vector.RIGHT;
             ConsoleColor[] enemyColors =
             {
@@ -111,8 +111,8 @@ namespace Pac_Man_ish
             for (var i = 0; i < NumEnemies; i++)
             {
                 int x, y;
-                x = 12 + i;
-                y = 9;
+                x = 9 + i;
+                y = 12;
                 var enemy = new Enemy('░', enemyColors[i], x, y, board);
                 enemy.V = (Vector)(rand.Next() % 4);
                 enemies.Add(enemy);

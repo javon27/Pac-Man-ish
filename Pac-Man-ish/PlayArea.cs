@@ -15,7 +15,7 @@ namespace Pac_Man_ish
             '╔', '╗', '╚', '╝', '═', '║', '╠', '╣', '╦', '╩'
         };
         public static char PELLET = '·';
-        public static char POWERUP = '•';
+        public static char POWERUP = '°';
         Assembly assembly = Assembly.GetExecutingAssembly();
 
         public int Right
@@ -30,7 +30,7 @@ namespace Pac_Man_ish
         {
             get; private set;
         }
-        public object[,] ActorBoard
+        public object[,] PelletBoard
         {
             get; set;
         }
@@ -41,7 +41,7 @@ namespace Pac_Man_ish
             Right = Properties.Settings.Default.windowWidth-2;
             Bottom = Properties.Settings.Default.windowHeight-4;
             Board = new object[Right + 1, Bottom + 1];
-            ActorBoard = new object[Right + 1, Bottom + 1];
+            PelletBoard = new object[Right + 1, Bottom + 1];
             FillBoard();
         }
 
@@ -81,7 +81,7 @@ namespace Pac_Man_ish
                             }
                             if (c == PELLET || c == POWERUP)
                             {
-                                Board[col, row] = new Pellet(c, ConsoleColor.White, col, row);
+                                PelletBoard[col, row] = new Pellet(c, ConsoleColor.White, col, row);
                             }
                             if (c == 'n')
                             {
@@ -108,11 +108,14 @@ namespace Pac_Man_ish
                 for (var j = 0; j <= Bottom; j++)
                 {
                     var o = ((IGameObject)Board[i, j]);
-                    if (o != null)
+                    var p = ((IGameObject)PelletBoard[i, j]);
+                    if (o != null || p != null)
                     {
                         if (walls && o is StationaryObject)
                             Drawer.DrawObject(o.Icon, o.Color, i, j);
-                        if (o.GetType() != typeof(StationaryObject))
+                        if (p != null)
+                            Drawer.DrawObject(p.Icon, p.Color, i, j);
+                        if (o is IGameActor)
                             Drawer.DrawObject(o.Icon, o.Color, i, j);
                         //o.v = Vector.STOP;
                     }

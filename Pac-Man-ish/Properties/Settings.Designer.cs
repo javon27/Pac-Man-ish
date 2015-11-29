@@ -61,7 +61,7 @@ namespace Pac_Man_ish.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.75")]
         public float playerSpeed {
             get {
                 return ((float)(this["playerSpeed"]));
