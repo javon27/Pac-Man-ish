@@ -12,7 +12,7 @@ namespace Pac_Man_ish
         public bool RunGame = true;
         public const int TICK = 100;
         public static int gameCounter = 0;
-        Player p1;
+        public Player p1;
         List<Enemy> enemies;
         public PlayArea board;
         Thread t_KeyListener;

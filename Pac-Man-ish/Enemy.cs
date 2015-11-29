@@ -76,15 +76,40 @@ namespace Pac_Man_ish
             Board[X, Y] = this;
         }
 
+        private Vector VectorToPlayer()
+        {
+            Player p1 = Parent.p1;
+            int dx = p1.X - X;
+            int dy = p1.Y - Y;
+            if (dy > dx)
+            {
+                if (dy < 0)
+                {
+                    return Vector.UP;
+                }
+                else
+                {
+                    return Vector.DOWN;
+                }
+            }
+            else
+            {
+                if (dx < 0)
+                {
+                    return Vector.LEFT;
+                }
+                else
+                {
+                    return Vector.RIGHT;
+                }
+            }
+        }
+
         private void Move()
         {
             Random rand = new Random(DateTime.Now.Millisecond);
             do
             {
-                //if (Game.gameCounter%5 == 0)
-                //{
-                //    v = (Vector)(rand.Next() % 4);
-                //}
                 float fx = fX;
                 float fy = fY;
                 float SPEED = Program.options.enemySpeed;
@@ -105,6 +130,10 @@ namespace Pac_Man_ish
                 }
                 int x = (int)Math.Round(fx, 0);
                 int y = (int)Math.Round(fy, 0);
+                if (y == 10 && (x == 10 || x == 11 || x == 12))
+                {
+                    y = 9;
+                }
                 if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
                 {
                     V = (Vector)(rand.Next() % 4);

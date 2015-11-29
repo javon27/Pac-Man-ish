@@ -12,7 +12,7 @@ namespace Pac_Man_ish
     {
         private static char[] WALLCHARS =
         {
-            '╔', '╗', '╚', '╝', '═', '║', '╠', '╣', '╦', '╩'
+            '╔', '╗', '╚', '╝', '═', '║', '╠', '╣', '╦', '╩', 'i'
         };
         public static char PELLET = '·';
         public static char POWERUP = '°';
@@ -77,7 +77,12 @@ namespace Pac_Man_ish
                         {
                             if (WALLCHARS.Contains(c))
                             {
-                                Board[col, row] = new StationaryObject(c, ConsoleColor.Blue, col, row);
+                                char i;
+                                if (c == 'i')
+                                    i = ' ';
+                                else
+                                    i = c;
+                                Board[col, row] = new StationaryObject(i, ConsoleColor.Blue, col, row);
                             }
                             if (c == PELLET || c == POWERUP)
                             {
