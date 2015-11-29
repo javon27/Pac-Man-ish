@@ -55,12 +55,13 @@ namespace Pac_Man_ish
             get; set;
         }
         protected Thread p_thread;
-        public PlayArea Board
+        public PlayArea Board;
+        public Game Parent
         {
             get; set;
         }
 
-        public Enemy (char _icon, ConsoleColor color, int x, int y, PlayArea board) 
+        public Enemy (char _icon, ConsoleColor color, int x, int y, Game game) 
         {
             Id = Interlocked.Increment(ref counter);
             fX = LastX = X = x;
@@ -68,7 +69,8 @@ namespace Pac_Man_ish
             Icon = _icon;
             Alive = true;
             Color = color;
-            Board = board;
+            Parent = game;
+            Board = Parent.board;
             Random rand = new Random(DateTime.Now.Millisecond);
             V = (Vector)(rand.Next() % 4);
             Board[X, Y] = this;

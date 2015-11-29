@@ -113,7 +113,7 @@ namespace Pac_Man_ish
                 int x, y;
                 x = 9 + i;
                 y = 12;
-                var enemy = new Enemy('░', enemyColors[i], x, y, board);
+                var enemy = new Enemy('░', enemyColors[i], x, y, this);
                 enemy.V = (Vector)(rand.Next() % 4);
                 enemies.Add(enemy);
             }
