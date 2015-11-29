@@ -8,6 +8,16 @@ namespace Pac_Man_ish
 {
     class Drawer
     {
+        static int statusRow = 26;
+        public static void ClearStatus()
+        {
+            Console.SetCursorPosition(0, statusRow);
+            for (var i = 0; i < 25; i++)
+            {
+                Console.Write(' ');
+            }
+        }
+
         public static void DrawPlayer(IGameActor player)
         {
             int x = player.X;
@@ -35,6 +45,12 @@ namespace Pac_Man_ish
             Console.SetCursorPosition(x, y);
             Console.Write(' ');
         }
-        
+
+        public static void WriteStatus(string s)
+        {
+            ClearStatus();
+            Console.SetCursorPosition(0, statusRow);
+            Console.Write(s);
+        }
     }
 }

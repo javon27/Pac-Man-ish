@@ -50,7 +50,7 @@ namespace Pac_Man_ish
         {
             get; set;
         }
-        Vector v
+        Vector V
         {
             get; set;
         }
@@ -59,6 +59,14 @@ namespace Pac_Man_ish
             get; set;
         }
         int LastY
+        {
+            get; set;
+        }
+        float fX
+        {
+            get; set;
+        }
+        float fY
         {
             get; set;
         }
@@ -76,11 +84,11 @@ namespace Pac_Man_ish
         NEW, CONTINUE, SETTINGS, QUIT
     }
 
-    class Program
+    static class Program
     {
-        static int statusRow = 57;
-        static Properties.Settings options = Properties.Settings.Default;
+        public static Properties.Settings options = Properties.Settings.Default;
         private static Game game;
+
         static void Main(string[] args)
         {
             //init();
@@ -111,7 +119,7 @@ namespace Pac_Man_ish
                         playGame = false;
                         break;
                     case MenuItem.SETTINGS:
-                        WriteStatus("Settings selected");
+                        Drawer.WriteStatus("Settings selected");
                         break;
                 }
             } while (playGame);
@@ -144,7 +152,7 @@ namespace Pac_Man_ish
             {
                 for (var i = 0; i < 4; i++)
                 {
-                    Console.SetCursorPosition(25, 25 + i);
+                    Console.SetCursorPosition(7, 10 + i);
                     if (i == cursor)
                     {
                         Console.Write("█ ");
@@ -170,22 +178,6 @@ namespace Pac_Man_ish
             } while (!itemSelected);
 
             return (MenuItem) cursor;
-        }
-
-        public static void WriteStatus(string s)
-        {
-            ClearStatus();
-            Console.SetCursorPosition(0, statusRow);
-            Console.Write(s);
-        }
-
-        public static void ClearStatus()
-        {
-            Console.SetCursorPosition(0, statusRow);
-            for (var i = 0; i < 25; i++)
-            {
-                Console.Write(' ');
-            }
         }
 
         static void test()

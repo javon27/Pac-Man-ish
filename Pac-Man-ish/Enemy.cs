@@ -42,7 +42,15 @@ namespace Pac_Man_ish
         {
             get; set;
         }
-        public Vector v
+        public float fX
+        {
+            get; set;
+        }
+        public float fY
+        {
+            get; set;
+        }
+        public Vector V
         {
             get; set;
         }
@@ -55,16 +63,15 @@ namespace Pac_Man_ish
         public Enemy (char _icon, ConsoleColor color, int x, int y, PlayArea board) 
         {
             Id = Interlocked.Increment(ref counter);
-            X = x;
-            Y = y;
-            LastX = x;
-            LastY = y;
+            fX = LastX = X = x;
+            fY = LastY = Y = y;
             Icon = _icon;
             Alive = true;
             Color = color;
             Board = board;
             Random rand = new Random(DateTime.Now.Millisecond);
-            v = (Vector)(rand.Next() % 4);
+            V = (Vector)(rand.Next() % 4);
+            Board[X, Y] = this;
         }
 
         private void Move()
@@ -72,33 +79,40 @@ namespace Pac_Man_ish
             Random rand = new Random(DateTime.Now.Millisecond);
             do
             {
-                if (Game.gameCounter%5 == 0)
-                {
-                    v = (Vector)(rand.Next() % 4);
-                }
-                int x = X;
-                int y = Y;
-                switch (v)
+                //if (Game.gameCounter%5 == 0)
+                //{
+                //    v = (Vector)(rand.Next() % 4);
+                //}
+                float fx = fX;
+                float fy = fY;
+                float SPEED = Program.options.enemySpeed;
+                switch (V)
                 {
                     case Vector.UP:
-                        y = Y - 1;
+                        fy = fY - SPEED;
                         break;
                     case Vector.DOWN:
-                        y = Y + 1;
+                        fy = fY + SPEED;
                         break;
                     case Vector.LEFT:
-                        x = X - 1;
+                        fx = fX - SPEED;
                         break;
                     case Vector.RIGHT:
-                        x = X + 1;
+                        fx = fX + SPEED;
                         break;
                 }
-                if (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom)
+                int x = (int)Math.Round(fx, 0);
+                int y = (int)Math.Round(fy, 0);
+                if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
                 {
-                    v = (Vector)(rand.Next() % 4);
+                    V = (Vector)(rand.Next() % 4);
                 }
                 else
                 {
+                    Board[X, Y] = null;
+                    Board[x, y] = this;
+                    fX = fx;
+                    fY = fy;
                     X = x;
                     Y = y;
                 }
