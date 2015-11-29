@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace Pac_Man_ish
 {
-    class Player: IGameObject
-    {        
-        private static int counter = 0;
-        public int Id
-        {
-            get; private set;
-        }
+    class Player: IGameObject, IGameActor
+    {
         public bool Alive
         {
             get; set;
@@ -42,11 +37,25 @@ namespace Pac_Man_ish
         {
             get; set;
         }
-        public Vector v
+        public float fX
         {
             get; set;
         }
-        private Thread p_thread;
+        public float fY
+        {
+            get; set;
+        }
+        public Vector V
+        {
+            get; set;
+        }
+
+        public Vector LastV
+        {
+            get; set;
+        }
+
+        protected Thread p_thread;
         public PlayArea Board
         {
             get; set;
@@ -54,44 +63,107 @@ namespace Pac_Man_ish
 
         public Player(char _icon, ConsoleColor color, int x, int y, PlayArea board)
         {
-            Id = Interlocked.Increment(ref counter);
-            X = x;
-            Y = y;
-            LastX = x;
-            LastY = y;
+            fX = LastX = X = x;
+            fY = LastY = Y = y;
             Icon = _icon;
             Alive = true;
             Color = color;
             Board = board;
-            v = Vector.STOP;
+            V = Vector.STOP;
+            Board[X, Y] = this;
         }
         
         private void Move()
         {
             do
             {
-                int x = X;
-                int y = Y;
-                switch (v)
+                float fx = fX;
+                float fy = fY;
+                int x;
+                int y;
+                float SPEED = Program.options.playerSpeed;
+                switch (V)
                 {
                     case Vector.UP:
-                        y = Y - 1;
+                        fy = fY - SPEED;
                         break;
                     case Vector.DOWN:
-                        y = Y + 1;
+                        fy = fY + SPEED;
                         break;
                     case Vector.LEFT:
-                        x = X - 1;
+                        fx = fX - SPEED;
+                        x = (int)Math.Round(fx, 0);
+                        if (Y == 12 && x == 0)
+                        {
+                            fx = 21f;
+                        }
                         break;
                     case Vector.RIGHT:
-                        x = X + 1;
+                        fx = fX + SPEED;
+                        x = (int)Math.Round(fx, 0);
+                        if (Y == 12 && x == 22)
+                        {
+                            fx = 1f;
+                        }
                         break;
                 }
-                if (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom) {
-                    v = Vector.STOP;
+                x = (int)Math.Round(fx, 0);
+                y = (int)Math.Round(fy, 0);
+                if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
+                {
+                    if (V != LastV)
+                    {
+                        fx = fX;
+                        fy = fY;
+                        switch (LastV)
+                        {
+                            case Vector.UP:
+                                fy = fY - SPEED;
+                                break;
+                            case Vector.DOWN:
+                                fy = fY + SPEED;
+                                break;
+                            case Vector.LEFT:
+                                fx = fX - SPEED;
+                                x = (int)Math.Round(fx, 0);
+                                if (Y == 12 && x == 0)
+                                {
+                                    fx = 21f;
+                                }
+                                break;
+                            case Vector.RIGHT:
+                                fx = fX + SPEED;
+                                x = (int)Math.Round(fx, 0);
+                                if (Y == 12 && x == 22)
+                                {
+                                    fx = 1f;
+                                }
+                                break;
+                        }
+                        x = (int)Math.Round(fx, 0);
+                        y = (int)Math.Round(fy, 0);
+                        if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
+                        {
+                            V = Vector.STOP;
+                        }
+                        else
+                        {
+                            Board[X, Y] = null;
+                            Board[x, y] = this;
+                            fX = fx;
+                            fY = fy;
+                            X = x;
+                            Y = y;
+                        }
+                    }
                 }
                 else
                 {
+                    LastV = V;
+                    Board[X, Y] = null;
+                    Board[x, y] = this;
+                    fX = fx;
+                    fY = fy;
                     X = x;
                     Y = y;
                 }
@@ -102,6 +174,7 @@ namespace Pac_Man_ish
         public void Start()
         {
             Alive = true;
+            LastV = V;
             if (p_thread == null)
             {
                 p_thread = new Thread(Move);
