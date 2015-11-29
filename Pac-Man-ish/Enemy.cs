@@ -130,11 +130,11 @@ namespace Pac_Man_ish
                 }
                 int x = (int)Math.Round(fx, 0);
                 int y = (int)Math.Round(fy, 0);
-                if (y == 10 && (x == 10 || x == 11 || x == 12))
+                if (V == Vector.UP && y == 10 && (x == 10 || x == 11 || x == 12))
                 {
                     y = 9;
                 }
-                if (Board[x, y] != this && (Board[x, y] != null || x < 1 || x >= Board.Right || y < 1 || y >= Board.Bottom))
+                if (Board[x, y] != this && (Board[x, y] is StationaryObject || Board[x, y] is IGameActor))
                 {
                     V = (Vector)(rand.Next() % 4);
                 }
