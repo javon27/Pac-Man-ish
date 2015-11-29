@@ -179,5 +179,12 @@ namespace Pac_Man_ish
 
             return (MenuItem) cursor;
         }
+
+        static void test()
+        {
+            PlayArea board = new PlayArea();
+            Player p1 = new Player('P', ConsoleColor.White, 1, 1, board);
+
+        }
     }
 }
